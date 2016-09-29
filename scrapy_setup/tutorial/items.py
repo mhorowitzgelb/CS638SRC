@@ -19,7 +19,6 @@ class ComputerPart(scrapy.Item):
 	name = scrapy.Field()
 	model = scrapy.Field()
 	brand = scrapy.Field()
-	category = scrapy.Field()
 	price = scrapy.Field()
 	rating = scrapy.Field()
 	energy_rating = scrapy.Field()
