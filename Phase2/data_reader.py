@@ -1,21 +1,26 @@
 import sys
 from matplotlib import pyplot
+import csv
 '''
 Pass a file path and this simple method will create a dictionary of lists for each column
 in the dataset
 '''
 def readData(file):
-    f = open(file,'r')
+    f = csv.reader(open(file,'r'))
     readHeader = False
 
     data = {'category' : [], 'brand': [], 'name' : [], 'price' : [], 'rating' : [], 'model' : [], 'weight' :[],
             'product_id' : [], 'url' : []}
 
-    for line in f:
+    for split in f:
         if not readHeader:
             readHeader = True
             continue
-        split = line.split(',')
+        if len(split) != 9:
+            print "Oh Fuck!"
+            for ele in split:
+                print ele
+            sys.exit()
         data['category'].append(split[0])
         data['brand'].append(split[1])
         data['name'].append(split[2])
@@ -84,5 +89,20 @@ def missingComparison(data, missingCol, compareCol):
             if pair[0] is '':
                 compare.append(pair[1])
     return compare
+
+def removeWeirdRows(file, newfile):
+    f = open(file, 'r')
+    fnew = open(newfile, 'w')
+    reader = csv.reader(f)
+    writer = csv.writer(fnew)
+    written = 0
+    for row in reader:
+        if len(row) == 9:
+            writer.writerow(row)
+            written += 1
+
+    print "wrote %d rows" %(written)
+    f.close()
+    fnew.close()
 
 
